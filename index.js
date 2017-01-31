@@ -16,7 +16,13 @@ app.listen(3000, () => {
 })
 
 app.get('/', (req, res, next) =>{
-  clowns.find({}).then(result => res.json(result))
+  clowns.find({})
+  .then(result => res.json(result))
+})
+
+app.get('/:id', (req, res, next) =>{
+  clowns.findOne({_id: req.params.id})
+  .then(result => res.json(result))
 })
 
 app.post('/', (req, res, next) => {
@@ -24,4 +30,16 @@ app.post('/', (req, res, next) => {
    .then(result =>{
      res.json(result)
    })
+})
+
+app.delete('/:id', (req, res, next) =>{
+  clowns.findOneAndDelete({_id: req.params.id})
+  .then( () => res.json({
+    message: 'its gone'
+  }))
+})
+
+app.patch('/:id', (req, res, next) =>{
+  clowns.findOneAndUpdate({_id: req.params.id}, req.body)
+  .then( (result) => res.json(result))
 })
